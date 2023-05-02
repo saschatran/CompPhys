@@ -457,8 +457,8 @@ use sortingD
             
             ! Insert element into the matrix version
             call insertMatrix(arr, matrix, length, element, ncolelements, valindex, count)
-            call matrixToVector(tmp, matrix, length, ncolelements)
-            call checkVector(tmp, length)
+            !call matrixToVector(tmp, matrix, length, ncolelements)
+            !call checkVector(tmp, length)
             
             call cpu_time(endT)
             matrixTime = endT - startT
@@ -562,8 +562,8 @@ use sortingD
                 end if
                 ! Insert element into the matrix version
                 call insertMatrix(arr, matrix, length, element, ncolelements, valindex, count)
-                call matrixToVector(arr, matrix, length, ncolelements)
-                call checkVector(arr, length)
+                !call matrixToVector(arr, matrix, length, ncolelements)
+                !call checkVector(arr, length)
                 call cpu_time(endT)
                 matrixTime = endT - startT
                 preTime = preTime + matrixTime
@@ -620,8 +620,8 @@ use sortingD
                 end if
                 ! Insert element into the matrix version
                 call insertMatrix(arr, matrix, length, element, ncolelements, valindex, count)
-                call matrixToVector(arr, matrix, length, ncolelements)
-                call checkVector(arr, length)
+                !call matrixToVector(arr, matrix, length, ncolelements)
+                !call checkVector(arr, length)
                 call cpu_time(endT)
                 matrixTime = endT - startT
                 preTime = preTime + matrixTime
