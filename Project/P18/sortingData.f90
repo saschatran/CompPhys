@@ -115,8 +115,11 @@ contains
         real(8), dimension(:), allocatable, intent(inout) :: valindex
         integer, intent(out) :: count
 
-        integer :: inCol, inRow, i, m ,l
+        integer :: inCol, inRow, i, m ,l, nonempty
         real(8) :: tmp, mFactor, lFactor
+
+
+        inCol = 0
         
         !write(*, *) "ncol1", ncolelements
         mFactor = 0.3
@@ -132,7 +135,11 @@ contains
         
 
         ! Find the column where the new value should be inserted
-        call binarySearch(valindex, size(valindex), element, inCol, count)
+        nonempty = findloc(valindex, 0, dim=1)
+        if (nonempty == 0) then
+            nonempty = size(valindex)
+        end if
+        call binarySearch(valindex(1 : nonempty - 1), nonempty - 1, element, inCol, count)
 
         ! Element is the greatest of all currently saved...
         if (inCol > size(ncolelements)) then
@@ -154,8 +161,13 @@ contains
             go to 10
         end if
 
+        
         ! Find the row where the new value should be inserted
         call binarySearch(matrix(:, inCol), ncolelements(inCol), element, inRow, count)
+        ! If the column is empty, the row will be 0 therefore set inRow to 1
+        if (inRow == 0) then
+            inRow = 1
+        end if
 
         ! Save new maximum value if necessary
         if (element - valindex(inCol) > 1.d-10) then
@@ -163,7 +175,13 @@ contains
         end if
         
         ! Shift all elements after the new value one position to the right
-        matrix(inRow + 1 : ncolelements(inCol) + 1, inCol) = matrix(inRow : ncolelements(inCol), inCol)
+        
+        do i = inRow + 1, ncolelements(inCol) + 1
+            write(*, *) "prev", matrix(i - 1, inCol)
+            matrix(i, inCol) = matrix(i - 1, inCol)
+            write(*, *) "post", matrix(i, inCol)
+        end do
+        
         ! Insert the new value
         matrix(inRow, inCol) = element
         ! Update number of elements in the column
@@ -221,12 +239,15 @@ contains
 
         ! Assign the elements of the matrix to the array
         do i = 1, size(matrix, 2)
+            if (ncolelements(i) == 0) then
+                go to 20
+            end if
             do j = 1, ncolelements(i) 
                 arr(counter) = matrix(j, i)
                 counter = counter + 1
             end do 
         end do
-    end subroutine
+    20 end subroutine
 
     subroutine merge(arr, tmp, lo, mid, hi)
         ! Array is sorted in the range [lo, mid] and [mid+1, hi]
@@ -340,9 +361,11 @@ contains
                 matrix(j, i) = arr(counter)
                 counter = counter + 1
             end do
-
-            ! Save the maximum value of each column
-            valindex(i) = arr(counter - 1)
+            
+            if (n > 0) then
+                ! Save the maximum value of each column
+                valindex(i) = arr(counter - 1)
+            end if
 
         end do
     end subroutine
@@ -392,8 +415,14 @@ use sortingD
         call allocateArray(elementList, insert)
 
         ! Initialize array with random numbers between [0, 1]
-        call random_number(arr)
-        call random_number(elementList)
+        
+        do k = 1, size(arr)
+            arr(k) = k
+        end do
+
+        do k = 1, size(elementList)
+            elementList(k) = k
+        end do
 
         ! sort array
         tmp = arr
@@ -431,6 +460,9 @@ use sortingD
         
         
         do k=1,insert
+            if (k == 11) then
+                write(*, *) ""
+            end if
             call cpu_time(startT)
             element = elementList(k)
             if (k == 1) then
@@ -439,8 +471,8 @@ use sortingD
             
             ! Insert element into the matrix version
             call insertMatrix(arr, matrix, length, element, ncolelements, valindex, count)
-            call matrixToVector(arr, matrix, length, ncolelements)
-            call checkVector(arr, length)
+            call matrixToVector(tmp, matrix, length, ncolelements)
+            call checkVector(tmp, length)
             
             call cpu_time(endT)
             matrixTime = endT - startT
