@@ -121,7 +121,6 @@ contains
 
         inCol = 0
         
-        !write(*, *) "ncol1", ncolelements
         mFactor = 0.3
         lFactor = 0.3
         
@@ -177,9 +176,7 @@ contains
         ! Shift all elements after the new value one position to the right
         
         do i = inRow + 1, ncolelements(inCol) + 1
-            write(*, *) "prev", matrix(i - 1, inCol)
             matrix(i, inCol) = matrix(i - 1, inCol)
-            write(*, *) "post", matrix(i, inCol)
         end do
         
         ! Insert the new value
@@ -190,7 +187,6 @@ contains
         ! Update the length of the array
         length = length + 1
 
-        !write(*, *) "ncol2", ncolelements
 
 10  end subroutine
 
@@ -396,7 +392,6 @@ use sortingD
     write(70, '(*(G0.7,:,","))') "Size of array", "Matrix Time"
 
     do i = 1, 5
-        !write(*, *) i
         lo = 1
         
         length = 10**i
@@ -415,14 +410,8 @@ use sortingD
         call allocateArray(elementList, insert)
 
         ! Initialize array with random numbers between [0, 1]
-        
-        do k = 1, size(arr)
-            arr(k) = k
-        end do
-
-        do k = 1, size(elementList)
-            elementList(k) = k
-        end do
+        call random_number(arr)
+        call random_number(elementList)
 
         ! sort array
         tmp = arr
@@ -460,9 +449,6 @@ use sortingD
         
         
         do k=1,insert
-            if (k == 11) then
-                write(*, *) ""
-            end if
             call cpu_time(startT)
             element = elementList(k)
             if (k == 1) then
@@ -497,7 +483,7 @@ use sortingD
     close(70)
 
 
-    write(*, *) "TIMING DONE"
+
 
 
 
