@@ -391,7 +391,7 @@ use sortingD
     write(60, '(*(G0.7,:,","))') "Size of array", "Array Time"
     write(70, '(*(G0.7,:,","))') "Size of array", "Matrix Time"
 
-    do i = 1, 5
+    do i = 0, 5
         lo = 1
         
         length = 10**i
