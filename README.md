@@ -11,4 +11,5 @@ The following two projects were chosen:
 
 PLease consult the script and the [Computational Physics Praktikum.pdf](https://github.com/saschatran/CompPhys/blob/main/Computational%20Physics%20Praktikum.pdf) for a more detailed description of the projects and their results.
 
+The project tasks were coded in Fortran. As for the analysis, Python was used.
 
