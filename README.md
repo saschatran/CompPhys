@@ -9,6 +9,6 @@ The following two projects were chosen:
     • Sorting continuously growing data sets
     • Determination of the melting temperature of silicon by a molecular dynamics simulation
 
-PLease consult the script and the [https://github.com/saschatran/CompPhys/blob/main/Computational%20Physics%20Praktikum.pdf](Computational Physics Praktikum.pdf) for a more detailed description of the projects and their results.
+PLease consult the script and the [Computational Physics Praktikum.pdf](https://github.com/saschatran/CompPhys/blob/main/Computational%20Physics%20Praktikum.pdf) for a more detailed description of the projects and their results.
 
 
