@@ -1,4 +1,4 @@
-# Computational Physics Project
+# Molecular Dynamics Simulation Engine
 
 ## About the Project
 
